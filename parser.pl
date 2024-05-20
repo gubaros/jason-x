@@ -13,10 +13,22 @@ sub read_json {
     return $json_text;
 }
 
+#sub parse_json {
+#    my ($json_text) = @_;
+#    my $json = JSON::PP->new->allow_nonref;
+#    my $data = $json->decode($json_text);
+#    return $data;
+#}
+
 sub parse_json {
-    my ($json_text) = @_;
-    my $json = JSON::PP->new->allow_nonref;
-    my $data = $json->decode($json_text);
+    my ($json_str) = @_;
+    my $data;
+    eval {
+        $data = decode_json($json_str);
+    };
+    if ($@) {
+        die "Error parsing JSON: $@";
+    }
     return $data;
 }
 
